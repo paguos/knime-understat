@@ -1,9 +1,9 @@
 
-from nodes.step import LeagueTableStep
+from nodes.task import LeagueTableTask
 
 
 def test_execute():
-    step = LeagueTableStep("EPL", "2019")
+    step = LeagueTableTask("EPL", "2019")
     df = step.execute()
 
     expected_rows = 20

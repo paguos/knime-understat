@@ -6,7 +6,7 @@ import pandas as pd
 from understat import Understat
 
 
-class LeagueTableStep:
+class LeagueTask:
 
     def __init__(self, league, season) -> None:
         self.league = league
@@ -15,7 +15,7 @@ class LeagueTableStep:
     async def fetch_data(self):
         async with aiohttp.ClientSession() as session:
             understat = Understat(session)
-            table = await understat.get_league_table(self.league, self.season)
+            table = await self.task(understat)
             headers = table.pop(0)
             self.data = pd.DataFrame.from_records(table, columns=headers)
 
@@ -25,3 +25,9 @@ class LeagueTableStep:
         loop.run_until_complete(self.fetch_data())
 
         return self.data
+
+
+class LeagueTableTask(LeagueTask):
+
+    def task(self, understat):
+        return understat.get_league_table(self.league, self.season)
