@@ -31,3 +31,9 @@ class LeagueTableTask(LeagueTask):
 
     def task(self, understat):
         return understat.get_league_table(self.league, self.season)
+
+
+class LeaguePlayersTask(LeagueTask):
+
+    def task(self, understat):
+        return understat.get_league_players(self.league, self.season)
