@@ -1,5 +1,6 @@
 
-from nodes.task import LeaguePlayersTask, LeagueTableTask
+from nodes.task import LeaguePlayersTask
+from nodes.task import LeagueTableTask
 
 
 def test_league_table_task():
