@@ -1,0 +1,15 @@
+name: knime-understat-nodes-env
+channels:
+  - knime
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - knime-extension=4.7
+  - knime-python-base=4.7
+  - aiohttp=3.7.4
+  - autopep8
+  - pytest=6.2.0
+  - flake8
+  - pip:
+    - understat
