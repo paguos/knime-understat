@@ -1,0 +1,10 @@
+name: understat
+author: Pablo Osinaga
+env_yml_path: environment.yml
+extension_module: nodes/node
+description: Understat extension for KNIME. 
+long_description: A set of nodes to fetch data from the understat library.
+group_id: com.github.paguos.knime.extension
+version: 0.1.0
+vendor: None
+license_file: LICENSE
