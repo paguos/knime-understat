@@ -1,9 +1,9 @@
-import logging
 import knime_extension as knext
-
+import logging
 import utils
+
 from config import Competition
-from step import LeagueTableStep
+from task import LeagueTableTask
 
 LOGGER = logging.getLogger(__name__)
 
@@ -46,6 +46,6 @@ class LeagueTableNode:
         pass
 
     def execute(self, exec_context):
-        step = LeagueTableStep(league=self.league,
+        step = LeagueTableTask(league=self.league,
                                season=self.season)
         return knext.Table.from_pandas(step.execute())
