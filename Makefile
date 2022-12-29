@@ -9,7 +9,7 @@ lint:
 	conda run --name ${CONDA_ENV} flake8
 
 unit:
-	conda run --name ${CONDA_ENV} pytest
+	conda run --name ${CONDA_ENV} PYTHONPATH=nodes pytest
 
 tests: lint unit
 

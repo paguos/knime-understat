@@ -4,8 +4,7 @@ import utils
 
 from config import Competition
 from config import LeagueOperation
-from task import LeaguePlayersTask
-from task import LeagueTableTask
+from task import LeagueTask
 
 LOGGER = logging.getLogger(__name__)
 
@@ -24,14 +23,14 @@ class LeagueNodeSettings:
     information = knext.StringParameter(
         "Information",
         "The desired league's information.",
-        LeagueOperation.TABLE.name,
+        LeagueOperation.TABLE.value,
         enum=[en.value for en in LeagueOperation]
     )
 
     league = knext.StringParameter(
         "Competition",
         "The league's name (e.g. EPL, La Liga, Serie A, Bundesliga, Ligue 1)",
-        Competition.EPL.name,
+        Competition.EPL.value,
         enum=[en.value for en in Competition]
     )
 
@@ -70,11 +69,7 @@ class LeagueNode(BaseNode):
 
         information = LeagueOperation(self.settings.information)
 
-        if (information == LeagueOperation.TABLE):
-            step = LeagueTableTask(league=self.settings.league,
-                                   season=self.settings.season)
-        elif (information == LeagueOperation.PLAYERS):
-            step = LeaguePlayersTask(league=self.settings.league,
-                                     season=self.settings.season)
+        step = LeagueTask(information, league=self.settings.league,
+                          season=self.settings.season)
 
         return knext.Table.from_pandas(step.execute())
