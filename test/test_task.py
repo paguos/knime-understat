@@ -1,10 +1,8 @@
-
-from nodes.task import LeaguePlayersTask
-from nodes.task import LeagueTableTask
+from nodes.task import LeagueTask, LeagueOperation
 
 
 def test_league_table_task():
-    step = LeagueTableTask("EPL", "2019")
+    step = LeagueTask(LeagueOperation.TABLE, "EPL", "2019")
     df = step.execute()
 
     expected_rows = 20
@@ -18,7 +16,7 @@ def test_league_table_task():
 
 
 def test_league_players_task():
-    step = LeaguePlayersTask("EPL", "2019")
+    step = LeagueTask(LeagueOperation.PLAYERS, "EPL", "2019")
     df = step.execute()
 
     expected_rows = 514

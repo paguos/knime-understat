@@ -1,21 +1,28 @@
 import aiohttp
 import asyncio
-
 import pandas as pd
 
 from understat import Understat
 
+from config import LeagueOperation
+
 
 class LeagueTask:
 
-    def __init__(self, league, season) -> None:
+    def __init__(self, operation, league, season) -> None:
+        self.operation = operation
         self.league = league
         self.season = season
 
     async def fetch_data(self):
         async with aiohttp.ClientSession() as session:
             understat = Understat(session)
-            table = await self.task(understat)
+
+            if (self.operation == LeagueOperation.PLAYERS):
+                table = await understat.get_league_players(self.league, self.season)
+            elif (self.operation == LeagueOperation.TABLE):
+                table = await understat.get_league_table(self.league, self.season)
+
             headers = table.pop(0)
             self.data = pd.DataFrame.from_records(table, columns=headers)
 
@@ -25,15 +32,3 @@ class LeagueTask:
         loop.run_until_complete(self.fetch_data())
 
         return self.data
-
-
-class LeagueTableTask(LeagueTask):
-
-    def task(self, understat):
-        return understat.get_league_table(self.league, self.season)
-
-
-class LeaguePlayersTask(LeagueTask):
-
-    def task(self, understat):
-        return understat.get_league_players(self.league, self.season)
