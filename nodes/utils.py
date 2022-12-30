@@ -1,5 +1,28 @@
 from datetime import date
 
+from config import TeamStat
+
+
+def parse_team_stats(stats, team_stat: TeamStat) -> []:
+    result = []
+    for category, data in stats[team_stat.value].items():
+        row = []
+        row.append(category)
+
+        for metric, value in data.items():
+            if metric == "stat":
+                continue
+
+            if metric == "against":
+                against_values = [s for s in value.values()]
+            else:
+                row.append(value)
+
+        row = row + against_values
+        result.append(row)
+
+    return result
+
 
 def current_season() -> int:
     return __get_season(date.today())

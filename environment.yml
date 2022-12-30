@@ -11,5 +11,6 @@ dependencies:
   - autopep8
   - pytest=6.2.0
   - flake8
+  - freezegun
   - pip:
     - understat
