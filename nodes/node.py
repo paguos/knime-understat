@@ -5,9 +5,11 @@ import utils
 from config import Competition
 from config import LeagueOperation
 from config import TeamOperation
+from config import PlayerOperation
 from config import TeamStat
 from task import LeagueTask
 from task import TeamTask
+from task import PlayerTask
 
 LOGGER = logging.getLogger(__name__)
 
@@ -75,6 +77,24 @@ class TeamNodeSettings:
     )
 
 
+@knext.parameter_group(label="Player Settings")
+class PlayerNodeSettings:
+
+    information = knext.StringParameter(
+        "Information",
+        "The desired player's information.",
+        PlayerOperation.STATS.value,
+        enum=[en.value for en in PlayerOperation]
+    )
+
+    player_id = knext.IntParameter(
+        "Player id",
+        "The player's id",
+        1,
+        min_value=1
+    )
+
+
 @knext.node(
     name="Understat League Reader",
     node_type=knext.NodeType.SOURCE,
@@ -139,4 +159,35 @@ class TeamNode(BaseNode):
         step = TeamTask(information, team_name=self.settings.team,
                         season=self.settings.season, stat=stat)
 
+        return knext.Table.from_pandas(step.execute())
+
+
+@knext.node(
+    name="Understat Player Reader",
+    node_type=knext.NodeType.SOURCE,
+    icon_path="resources/soccer-player.png",
+    category="/community"
+)
+@knext.output_table(
+    name="Output Data",
+    description="The collected data of a player."
+)
+class PlayerNode(BaseNode):
+    """
+    Fetches information of a player
+    from the [understat's website](https://understat.com).
+
+    This node uses the [understat python package](https://understat.readthedocs.io/).
+
+    The node's icon was designed by  kosonicon, and obtained
+    for free via [flaticon.com](https://www.flaticon.com/free-icon/soccer-player_4049083).
+    """
+
+    settings = PlayerNodeSettings()
+
+    def execute(self, exec_context):
+
+        information = PlayerOperation(self.settings.information)
+
+        step = PlayerTask(information, self.settings.player_id)
         return knext.Table.from_pandas(step.execute())

@@ -36,3 +36,20 @@ def test_parse_team_stats():
     assert len(result) == 5
     assert expected_penalty in result
     assert expected_open_play in result
+
+
+def test_parse_player_stats():
+    with open("test/resources/player_stats.json", "r") as f:
+        stats = json.load(f)
+
+    result = utils.parse_player_stats(stats)
+    expected_positions = 5
+    expected_metrics = 8
+
+    assert len(result) == expected_positions * expected_metrics
+
+    expected_amc_goals = ["AMC", "goals", 0.0023, 0.0062, 0.0003]
+    assert expected_amc_goals in result
+
+    expected_dmc_assists = ["DMC", "assists", 0.0006, 0.0043, 0]
+    assert expected_dmc_assists in result
