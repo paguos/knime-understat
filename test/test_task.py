@@ -1,5 +1,6 @@
 from nodes.task import LeagueTask, LeagueOperation
 from nodes.task import TeamTask, TeamOperation, TeamStat
+from nodes.task import PlayerTask, PlayerOperation
 
 
 def test_league_table_task():
@@ -76,6 +77,35 @@ def test_team_stats_task():
         "shots (against)",
         "goals (against)",
         "xG (against)"
+    ]
+
+    assert df.shape == (expected_rows, len(expected_columns))
+    assert expected_columns == list(df.columns)
+
+
+def test_player_stats_task():
+    task = PlayerTask(PlayerOperation.STATS, 2517)
+    df = task.execute()
+
+    expected_rows = 40
+    expected_columns = [
+        "position", "metric", "avg", "max", "min"
+    ]
+
+    assert df.shape == (expected_rows, len(expected_columns))
+    assert expected_columns == list(df.columns)
+
+
+def test_player_shots_task():
+    task = PlayerTask(PlayerOperation.SHOTS, 2517)
+    df = task.execute()
+
+    expected_rows = 157
+    expected_columns = [
+        "id", "minute", "result", "X", "Y", "xG",
+        "player", "h_a", "player_id", "situation", "season",
+        "shotType", "match_id", "h_team", "a_team", "h_goals",
+        "a_goals", "date", "player_assisted", "lastAction"
     ]
 
     assert df.shape == (expected_rows, len(expected_columns))

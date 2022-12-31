@@ -24,6 +24,18 @@ def parse_team_stats(stats, team_stat: TeamStat) -> []:
     return result
 
 
+def parse_player_stats(stats) -> []:
+    result = []
+    for s in stats:
+        position = s["position"]
+
+        for metric, data in s.items():
+            if metric == "position":
+                continue
+            result.append([position, metric] + list(data.values()))
+    return result
+
+
 def current_season() -> int:
     return __get_season(date.today())
 

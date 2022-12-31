@@ -43,3 +43,8 @@ class TeamStat(Enum):
         if self == TeamStat.FORMATION:
             headers.insert(1, "time")
         return headers
+
+
+class PlayerOperation(Enum):
+    SHOTS = "Shots"
+    STATS = "Stats"

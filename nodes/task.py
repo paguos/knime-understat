@@ -5,7 +5,9 @@ import pandas as pd
 from understat import Understat
 
 from config import LeagueOperation
+from config import PlayerOperation
 from config import TeamOperation, TeamStat
+from utils import parse_player_stats
 from utils import parse_team_stats
 
 
@@ -59,3 +61,23 @@ class TeamTask(BaseTask):
             single_stat_data = parse_team_stats(data, self.stat)
             headers = self.stat.headers()
             return pd.DataFrame.from_records(single_stat_data, columns=headers)
+
+
+class PlayerTask(BaseTask):
+
+    def __init__(self, operation: PlayerOperation, player_id: int, grouped: bool = False):
+        self.operation = operation
+        self.player_id = player_id
+        self.grouped = grouped
+
+    async def task(self, understat: Understat):
+        if (self.operation == PlayerOperation.SHOTS):
+            data = await understat.get_player_shots(self.player_id)
+            return pd.DataFrame.from_records(data)
+        elif (self.operation == PlayerOperation.STATS):
+            data = await understat.get_player_stats(self.player_id)
+            single_stat_data = parse_player_stats(data)
+            return pd.DataFrame.from_records(
+                single_stat_data,
+                columns=["position", "metric", "avg", "max", "min"]
+            )
