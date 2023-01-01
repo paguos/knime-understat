@@ -97,10 +97,10 @@ def test_player_stats_task():
 
 
 def test_player_shots_task():
-    task = PlayerTask(PlayerOperation.SHOTS, 2517)
+    task = PlayerTask(PlayerOperation.SHOTS, 2371)
     df = task.execute()
 
-    expected_rows = 157
+    expected_rows = 1478
     expected_columns = [
         "id", "minute", "result", "X", "Y", "xG",
         "player", "h_a", "player_id", "situation", "season",
