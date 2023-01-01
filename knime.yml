@@ -1,6 +1,10 @@
 name: understat
 author: Pablo Osinaga
-env_yml_path: environment.yml
+env_yml_path: 
+  osx-64: environment.yml
+  osx-arm64: environment.yml
+  linux-64: environment.yml
+  win-64: environment.yml
 extension_module: nodes/node
 description: Understat extension for KNIME. 
 long_description: A set of nodes to fetch data from the understat library.
