@@ -19,9 +19,7 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v2
         with:
           activate-environment: knime-understat-nodes-env
-          channel-priority: strict
           environment-file: environment.yml
-          use-only-tar-bz2: true
       - name: Lint Tests
         shell: bash -l {0}
         run: make lint
