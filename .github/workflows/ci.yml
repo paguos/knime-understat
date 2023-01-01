@@ -26,3 +26,14 @@ jobs:
       - name: Unit Tests
         shell: bash -l {0}
         run: make unit
+  build-nodes:
+    name: Build KNIME Extension
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create conda environment
+        shell: bash -l {0}
+        run: make create/builder
+      - name: Build extension
+        shell: bash -l {0}
+        run: make build
