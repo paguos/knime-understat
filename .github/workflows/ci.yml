@@ -37,3 +37,6 @@ jobs:
       - name: Build extension
         shell: bash -l {0}
         run: make build
+      - name: Directory tree
+        shell: bash -l {0}
+        run: tree dir1 build_understat-extension
